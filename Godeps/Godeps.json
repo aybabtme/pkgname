@@ -4,5 +4,10 @@
 	"Packages": [
 		"./..."
 	],
-	"Deps": []
+	"Deps": [
+		{
+			"ImportPath": "github.com/aybabtme/httpgzip",
+			"Rev": "3c27b7caf7cdeffc651ef5aac69148e8de1c4997"
+		}
+	]
 }
