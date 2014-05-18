@@ -13,7 +13,10 @@ import (
 	"time"
 )
 
-var queueSize = 100
+var (
+	maxDist   = 2.0
+	queueSize = 100
+)
 
 var nameSources = []string{
 	"seed/names.flatfile",
@@ -57,7 +60,7 @@ func NewDB() *DB {
 		}
 	}
 	db.names = goodNames
-	lengthFilter, mean, stdev := closeToMean(goodNames)
+	lengthFilter, mean, stdev := closeToMean(goodNames, maxDist)
 	log.Printf("[DB] Mean name length=%f, stdev=%f.", mean, stdev)
 	db.filters = append(db.filters, lengthFilter)
 
@@ -97,7 +100,7 @@ func (db *DB) Validate(pkgname string) []string {
 func (db *DB) Last(last int) ([]string, []string) {
 	db.lock.RLock()
 	defer db.lock.RUnlock()
-	return db.goods.Last(last), db.bads.Last(last)
+	return reverse(db.goods.Last(last)), reverse(db.bads.Last(last))
 }
 
 func loadNames(sources []string) []string {
@@ -141,4 +144,12 @@ func loadSource(filename string) []string {
 	}
 
 	return names
+}
+
+func reverse(str []string) []string {
+	out := make([]string, len(str))
+	for i, val := range str {
+		out[len(out)-i-1] = val
+	}
+	return out
 }
