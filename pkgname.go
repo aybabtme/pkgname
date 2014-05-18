@@ -30,9 +30,9 @@ func main() {
 	db.AddFilter(noReferenceToGo)
 
 	mux := http.NewServeMux()
-	mux.HandleFunc("/validate", validate(db))
-	mux.HandleFunc("/history", history(db))
-	mux.HandleFunc("/generate", generate(db))
+	mux.HandleFunc("/validate", jsontype(validate(db)))
+	mux.HandleFunc("/history", jsontype(history(db)))
+	mux.HandleFunc("/generate", jsontype(generate(db)))
 
 	if *dev {
 		mux.Handle("/", http.FileServer(http.Dir("static/")))
@@ -51,8 +51,17 @@ func main() {
 		log.Fatalf("[ERROR] Failed to listen and serve: %v", err)
 	}
 }
+
+func jsontype(f http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/json")
+		f(w, r)
+	}
+}
+
 func validate(db *DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+
 		if r.Method != "POST" {
 			http.Error(w, `{"error": "Can only POST on this endpoint."}`, http.StatusTeapot)
 			return
