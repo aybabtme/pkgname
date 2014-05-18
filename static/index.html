@@ -4,19 +4,21 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <title>pkgname</title>
   <link href="/application.css" rel="stylesheet" type="text/css">
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300' rel='stylesheet' type='text/css'>
+  <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="wrapper">
-    <header>
-      <h1>What is your pkg name?</h1>
-    </header>
-    
+  <header>
+    <h1>What is your pkg name?</h1>
+  </header>
+
+  <section class="main">
     <form id="pkgnameform">
       <input type="text" name="pkgname" id="pkgname" placeholder="go-libPkgNameLib">
-      <a href="/generate" id="generate" title="Generate pkg name"></a>
-      <input type="submit" value="Is it shit?">
+      <input type="submit" value="Is it shit?" class="btn">
     </form>
+
+    <a href="#" id="example" class="btn"><i class="fa fa-bolt"></i> Example</a><a href="#" id="history" class="btn"><i class="fa fa-history"></i> History</a>
 
     <div id="messages">
       <div id="validmessage" class="message">
@@ -26,8 +28,22 @@
         <p><span class="name"></span> is a shit pkg name</p>
         <ul></ul>
       </div>
+      <div id="historymessage" class="message">
+        <p>These are shit names</p>
+        <ul></ul>
+        <p>These are not shit names</p>
+        <ul></ul>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <footer>
+    <p>
+      <a href="//github.com/aybabtme">Antoine Grondin</a>
+      &amp;
+      <a href="//github.com/alexcoco">Alex Coco</a>
+    </p>
+  </footer>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="application.js" type="text/javascript"></script>

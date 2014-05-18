@@ -1,12 +1,16 @@
 $(function() {
-  var pkgnamefield = $('#pkgname');
+  var pkgnameField = $('#pkgname');
+  var pkgnameForm = $('#pkgnameform');
   var validMessage = $('#validmessage');
   var invalidMessage = $('#invalidmessage');
+  var historyMessage = $('#historymessage');
 
   function hideMessages() {
     validMessage.hide();
     invalidMessage.hide();
     invalidMessage.find('ul').empty();
+    historyMessage.hide();
+    historyMessage.find('ul').empty();
   }
 
   function showValidPkgname(name) {
@@ -20,7 +24,6 @@ $(function() {
     causes.forEach(function(cause) {
       var li = document.createElement('li');
       li.innerText = cause;
-      
       ul.append(li);
     });
 
@@ -43,10 +46,32 @@ $(function() {
     }
   }
 
-  $('#pkgnameform').on('submit', function(e) {
+  function afterHistory(data) {
+    hideMessages();
+
+    var ul = historyMessage.find('ul');
+    var badsUl = ul.first();
+    var goodsUl = ul.last();
+
+    data.bads.forEach(function(bad) {
+      var li = document.createElement('li');
+      li.innerText = bad;
+      badsUl.append(li);
+    });
+
+    data.goods.forEach(function(good) {
+      var li = document.createElement('li');
+      li.innerText = good;
+      goodsUl.append(li);
+    });
+
+    historyMessage.show();
+  }
+
+  pkgnameForm.on('submit', function(e) {
     e.preventDefault();
 
-    var name = pkgnamefield.val().trim();
+    var name = pkgnameField.val().trim();
     if (name == '') return;
 
     $.ajax({
@@ -57,9 +82,30 @@ $(function() {
     });
   });
 
-  $('#generate').on('click', function(e) {
+  $('#example').on('click', function(e) {
     e.preventDefault();
-
     $.get('/generate', afterValidate);
   });
+
+  $('#history').on('click', function(e) {
+    e.preventDefault();
+    $.get('/history', afterHistory);
+  });
+
+  if (window.location.search.length) {
+    var pkgParam = null;
+    var queryString = window.location.search.substr(1);
+    queryString.split('&').forEach(function(p) {
+      var pair = p.split('=');
+
+      if (pair[0].toLowerCase() == 'pkgname') {
+        pkgParam = pair[1];
+      }
+    });
+
+    if (pkgParam) {
+      pkgnameField.val(pkgParam);
+      pkgnameForm.trigger('submit');
+    }
+  }
 })
