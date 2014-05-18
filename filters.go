@@ -2,7 +2,7 @@ package main
 
 import (
 	"errors"
-	"regexp"
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -53,12 +53,28 @@ func noReferenceToGolang(name string) error {
 	return nil
 }
 
-var goSpecIdentifier = regexp.MustCompile(`\w(\w|\d)`)
+var errInvalidPackage = "That's not even a valid package name: %s!" +
+	" Read the spec: http://golang.org/ref/spec#Package_clause"
 
 func validPackageNames(name string) error {
+	if len(name) < 1 {
+		return fmt.Errorf(errInvalidPackage, "the name can't be blank")
+	}
 
-	if !goSpecIdentifier.MatchString(name) {
-		return errors.New(`That's not even a valid package name, read the spec: http://golang.org/ref/spec#Package_clause`)
+	for i, rest := range []rune(name) {
+		if i == 0 {
+			if !unicode.IsLetter(rest) {
+				return fmt.Errorf(errInvalidPackage, "the first character must be a letter")
+			}
+		}
+
+		switch {
+		case unicode.IsLetter(rest):
+		case unicode.IsDigit(rest):
+			// ok
+		default:
+			return fmt.Errorf(errInvalidPackage, fmt.Sprintf("character #%d must be a letter or a digit", i+1))
+		}
 	}
 
 	return nil
