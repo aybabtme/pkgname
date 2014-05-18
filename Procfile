@@ -1,1 +1,1 @@
-web:  pkgname -p $PORT
+web:  pkgname -port $PORT
