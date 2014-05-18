@@ -87,3 +87,27 @@ input[type="submit"]:active {
   top: 10px;
   width: 25px;
 }
+
+#messages { padding: 0 50px; }
+
+.message {
+  border-radius: 5px;
+  color: #fff;
+  display: none;
+  padding: 20px;
+  word-wrap: break-word;
+}
+
+.message p {
+  margin: 0;
+  font-size: 24px;
+}
+
+#validmessage {
+  background: #0EA46E;
+  text-align: center;
+}
+
+#invalidmessage { background: #F06050; }
+
+.message .name { font-weight: 400; }
