@@ -36,8 +36,6 @@ $(function() {
       return;
     }
 
-    console.log(data);
-
     if (data.success === false) {
       showInvalidPkgname(data.pkgname, data.causes);
     } else {
