@@ -20,11 +20,11 @@ func (l *leakingQueue) Enqueue(s string) {
 }
 
 func (l *leakingQueue) Last(size int) []string {
-	return l.vec[min(len(l.vec)-size, 0):]
+	return l.vec[max(len(l.vec)-size, 0):]
 }
 
-func min(a, b int) int {
-	if a < b {
+func max(a, b int) int {
+	if a > b {
 		return a
 	}
 	return b

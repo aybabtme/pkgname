@@ -14,6 +14,9 @@ func main() {
 
 	port := flag.String("port", "5000", "port to listen on")
 	numCPU := flag.Int("cpu", runtime.NumCPU(), "number of cpus to use")
+	dev := flag.Bool("dev", false, "dev mode uses a static file handler that reads from the FS at each request")
+
+	flag.Parse()
 
 	runtime.GOMAXPROCS(*numCPU)
 
@@ -31,11 +34,15 @@ func main() {
 	mux.HandleFunc("/history", history(db))
 	mux.HandleFunc("/generate", generate(db))
 
-	static, err := staticHandler("static/")
-	if err != nil {
-		log.Fatalf("[ERROR] Failed to prepare static assets, %v", err)
+	if *dev {
+		mux.Handle("/", http.FileServer(http.Dir("static/")))
+	} else {
+		static, err := staticHandler("static/")
+		if err != nil {
+			log.Fatalf("[ERROR] Failed to prepare static assets, %v", err)
+		}
+		mux.HandleFunc("/", static)
 	}
-	mux.HandleFunc("/", static)
 
 	laddr := ":" + *port
 	log.Printf("Listening on %q with %d cores", laddr, *numCPU)
