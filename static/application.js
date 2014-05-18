@@ -25,7 +25,7 @@ $(function() {
 
     causes.forEach(function(cause) {
       var li = document.createElement('li');
-      li.innerText = cause;
+      $(li).text(cause);
       ul.append(li);
     });
 
@@ -59,13 +59,13 @@ $(function() {
 
     data.bads.forEach(function(bad) {
       var li = document.createElement('li');
-      li.innerText = bad;
+      $(li).text(bad);
       badsUl.append(li);
     });
 
     data.goods.forEach(function(good) {
       var li = document.createElement('li');
-      li.innerText = good;
+      $(li).text(good);
       goodsUl.append(li);
     });
 
