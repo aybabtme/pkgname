@@ -16,32 +16,52 @@ import (
 var queueSize = 100
 
 var nameSources = []string{
-	"seed/names.flatfile.gz",
+	"seed/names.flatfile",
 }
+
+type Filter func(string) error
 
 type DB struct {
 	lock    sync.RWMutex
 	names   []string
 	r       *rand.Rand
-	filters []func(string) error
+	filters []Filter
 
 	goods *leakingQueue
 	bads  *leakingQueue
 }
 
 func NewDB() *DB {
-	return &DB{
-		names: loadNames(nameSources),
+
+	db := &DB{
 		r:     rand.New(rand.NewSource(time.Now().UnixNano())),
 		goods: newQueue(queueSize),
 		bads:  newQueue(queueSize),
+		filters: []Filter{
+			noHyphens,
+			noUnderscore,
+			notCapitalized,
+			noReferenceToGo,
+			noReferenceToGolang,
+			validPackageNames,
+		},
 	}
-}
 
-func (db *DB) AddFilter(f func(name string) error) {
-	db.lock.Lock()
-	defer db.lock.Unlock()
-	db.filters = append(db.filters, f)
+	var goodNames []string
+	for _, name := range loadNames(nameSources) {
+		errs := db.Validate(name)
+		if len(errs) != 0 {
+			log.Printf("[DB] Rejecting %q from source: \n%s", name, strings.Join(errs, "\n"))
+		} else {
+			goodNames = append(goodNames, name)
+		}
+	}
+	db.names = goodNames
+	lengthFilter, mean, stdev := closeToMean(goodNames)
+	log.Printf("[DB] Mean name length=%f, stdev=%f.", mean, stdev)
+	db.filters = append(db.filters, lengthFilter)
+
+	return db
 }
 
 func (db *DB) Get() string {

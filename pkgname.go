@@ -24,7 +24,6 @@ func main() {
 	log.SetFlags(log.Flags() | log.Lshortfile | log.Lmicroseconds)
 
 	db := NewDB()
-	registerFilters(db)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/validate", jsontype(validate(db)))

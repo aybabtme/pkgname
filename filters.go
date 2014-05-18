@@ -3,18 +3,10 @@ package main
 import (
 	"errors"
 	"fmt"
+	"github.com/grd/stat"
 	"strings"
 	"unicode"
 )
-
-func registerFilters(db *DB) {
-	db.AddFilter(noHyphens)
-	db.AddFilter(noUnderscore)
-	db.AddFilter(notCapitalized)
-	db.AddFilter(noReferenceToGo)
-	db.AddFilter(noReferenceToGolang)
-	db.AddFilter(validPackageNames)
-}
 
 func noHyphens(name string) error {
 	if strings.Contains(name, "-") {
@@ -80,4 +72,27 @@ func validPackageNames(name string) error {
 	}
 
 	return nil
+}
+
+func closeToMean(allnames []string) (f Filter, mean, stdev float64) {
+	data := make(stat.IntSlice, len(allnames))
+	for i, name := range allnames {
+		data[i] = int64(len(name))
+	}
+
+	mean = stat.Mean(data)
+	stdev = stat.SdMean(data, mean)
+
+	minMean := int(mean - stdev)
+	maxMean := int(mean + stdev)
+
+	f = func(name string) error {
+		diff := float64(len(name)) - mean
+		if diff > stdev {
+			return fmt.Errorf("This package name is %.1f std.dev. longer than normal."+
+				" It should be between %d and %d characters.", diff/2, minMean, maxMean)
+		}
+		return nil
+	}
+	return
 }
