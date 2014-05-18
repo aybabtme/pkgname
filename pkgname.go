@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"github.com/aybabtme/httpgzip"
 	"log"
 	"net/http"
 	"runtime"
@@ -23,11 +24,7 @@ func main() {
 	log.SetFlags(log.Flags() | log.Lshortfile | log.Lmicroseconds)
 
 	db := NewDB()
-	db.AddFilter(noReferenceToGolang)
-	db.AddFilter(noHyphens)
-	db.AddFilter(noUnderscore)
-	db.AddFilter(notCapitalized)
-	db.AddFilter(noReferenceToGo)
+	registerFilters(db)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/validate", jsontype(validate(db)))
@@ -47,7 +44,9 @@ func main() {
 	laddr := ":" + *port
 	log.Printf("Listening on %q with %d cores", laddr, *numCPU)
 
-	if err := http.ListenAndServe(laddr, mux); err != nil {
+	gziper := httpgzip.NewHandler(mux)
+
+	if err := http.ListenAndServe(laddr, gziper); err != nil {
 		log.Fatalf("[ERROR] Failed to listen and serve: %v", err)
 	}
 }
@@ -78,10 +77,12 @@ func validate(db *DB) http.HandlerFunc {
 		data, err := json.Marshal(struct {
 			Err     string   `json:"error"`
 			Success bool     `json:"success"`
+			Pkgname string   `json:"pkgname"`
 			Causes  []string `json:"causes"`
 		}{
 			Err:     "",
 			Success: len(errs) == 0,
+			Pkgname: pkgname,
 			Causes:  errs,
 		})
 

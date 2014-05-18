@@ -2,6 +2,8 @@ package main
 
 import (
 	"bytes"
+	"crypto/md5"
+	"encoding/hex"
 	"fmt"
 	"io"
 	"log"
@@ -13,6 +15,7 @@ import (
 )
 
 type asset struct {
+	md5hex   string
 	mimetype string
 	content  []byte
 }
@@ -51,7 +54,11 @@ func (s *staticDB) Put(file *os.File, size int) error {
 	}
 	log.Printf("[INFO] Mimetype of %q: %q", file.Name(), mimetype)
 
+	h := md5.New()
+	_, _ = h.Write(data)
+
 	s.assets[file.Name()] = &asset{
+		md5hex:   hex.EncodeToString(h.Sum(nil)),
 		content:  data,
 		mimetype: mimetype,
 	}
@@ -107,15 +114,24 @@ func staticHandler(path string) (http.HandlerFunc, error) {
 			path = static.basePath + r.URL.Path[1:]
 		}
 
-		log.Printf("[INFO] Request for assets %q", path)
-
 		asset, ok := static.Get(path)
 		if !ok {
 			http.NotFound(w, r)
 			log.Printf("[INFO] Not found.")
 			return
 		}
+
+		for _, etag := range r.Header["If-None-Match"] {
+			if etag == asset.md5hex {
+				w.WriteHeader(http.StatusNotModified)
+				log.Printf("[Info] Not modified")
+				return
+			}
+		}
+
+		w.Header().Set("ETag", asset.md5hex)
 		w.Header().Set("Content-Type", asset.mimetype)
 		io.Copy(w, asset.Reader())
+
 	}, err
 }

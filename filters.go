@@ -2,9 +2,19 @@ package main
 
 import (
 	"errors"
+	"regexp"
 	"strings"
 	"unicode"
 )
+
+func registerFilters(db *DB) {
+	db.AddFilter(noHyphens)
+	db.AddFilter(noUnderscore)
+	db.AddFilter(notCapitalized)
+	db.AddFilter(noReferenceToGo)
+	db.AddFilter(noReferenceToGolang)
+	db.AddFilter(validPackageNames)
+}
 
 func noHyphens(name string) error {
 	if strings.Contains(name, "-") {
@@ -40,5 +50,16 @@ func noReferenceToGolang(name string) error {
 	if strings.Contains(strings.ToLower(name), "golang") {
 		return errors.New("The name of Go is Go, not Golang. You don't say Javalang, or Rubylang, or Pythonlang, do you?")
 	}
+	return nil
+}
+
+var goSpecIdentifier = regexp.MustCompile(`\w(\w|\d)`)
+
+func validPackageNames(name string) error {
+
+	if !goSpecIdentifier.MatchString(name) {
+		return errors.New(`That's not even a valid package name, read the spec: http://golang.org/ref/spec#Package_clause`)
+	}
+
 	return nil
 }
