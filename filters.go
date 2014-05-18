@@ -95,7 +95,7 @@ func closeToMean(allnames []string, maxDist float64) (f Filter, mean, stdev floa
 
 		if dist > maxDist {
 			return fmt.Errorf("This package name is %.1f std.dev. longer than normal."+
-				" It should at most %d characters long.", dist, maxMean)
+				" It should be at most %d characters long.", dist, maxMean)
 		}
 		return nil
 	}
