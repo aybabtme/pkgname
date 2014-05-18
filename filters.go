@@ -73,7 +73,7 @@ func validPackageNames(name string) error {
 		case unicode.IsDigit(rest):
 			// ok
 		default:
-			return fmt.Errorf(errInvalidPackage, fmt.Sprintf("character #%d must be a letter or a digit", i+1))
+			return fmt.Errorf(errInvalidPackage, "all the characters (but the first) must be either letters or digits")
 		}
 	}
 
