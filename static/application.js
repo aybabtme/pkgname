@@ -14,7 +14,9 @@ $(function() {
   }
 
   function showValidPkgname(name) {
-    validMessage.find('.name').text(name);
+    validMessage.find('.name')
+      .attr('href', '/?pkgname=' + encodeURIComponent(name))
+      .text(name);
     validMessage.show();
   }
 
@@ -27,7 +29,9 @@ $(function() {
       ul.append(li);
     });
 
-    invalidMessage.find('.name').text(name);
+    invalidMessage.find('.name')
+      .attr('href', '/?pkgname=' + encodeURIComponent(name))
+      .text(name);
     invalidMessage.show();
   }
 

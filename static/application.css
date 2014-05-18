@@ -123,7 +123,10 @@ input[type="submit"] {
   font-size: 24px;
 }
 
-.message .name { font-weight: 400; }
+.message .name {
+  font-weight: 400;
+  text-decoration: none;
+}
 
 #invalidmessage { background: #F86B4F; }
 #historymessage { background: #D18EE2; }
