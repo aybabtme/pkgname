@@ -6,8 +6,25 @@
 	],
 	"Deps": [
 		{
+			"ImportPath": "code.google.com/p/goauth2/oauth",
+			"Comment": "weekly-43",
+			"Rev": "d4571a95014ff1fdd0055dc0f6b7e977a42b1e5a"
+		},
+		{
 			"ImportPath": "github.com/aybabtme/httpgzip",
 			"Rev": "3c27b7caf7cdeffc651ef5aac69148e8de1c4997"
+		},
+		{
+			"ImportPath": "github.com/google/go-github/github",
+			"Rev": "dcc1981fd936f5c4e35bea783d91aae3f2ca6e95"
+		},
+		{
+			"ImportPath": "github.com/google/go-querystring/query",
+			"Rev": "ec0a78e0f4db229b7897be36596a8944230b857a"
+		},
+		{
+			"ImportPath": "github.com/grd/stat",
+			"Rev": "138af3fd50123bd58e50f18bf51d0a878bad96eb"
 		}
 	]
 }
