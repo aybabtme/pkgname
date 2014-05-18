@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HELO</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>pkgname</title>
+  <link href="/application.css" rel="stylesheet" type="text/css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,400,300' rel='stylesheet' type='text/css'>
 </head>
 <body>
-lololol
+  <div class="wrapper">
+    <header>
+      <h1>What is your pkg name?</h1>
+    </header>
+    
+    <form id="pkgnameform">
+      <input type="text" name="pkgname" id="pkgname" placeholder="go-libPkgNameLib">
+      <a href="/generate" id="generate" title="Generate pkg name"></a>
+      <input type="submit" value="Is it shit?">
+    </form>
+  </div>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="application.js" type="text/javascript"></script>
 </body>
 </html>
