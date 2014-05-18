@@ -12,6 +12,7 @@ body {
   color: #333;
   font-family: 'Open Sans';
   font-weight: 300;
+  min-width: 650px;
 }
 
 a, a:visited { color: inherit; }
