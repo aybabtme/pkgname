@@ -124,7 +124,7 @@ input[type="submit"] {
 .message .name { font-weight: 400; }
 
 #invalidmessage { background: #F86B4F; }
-#historymessage { background: #FFDB77; }
+#historymessage { background: #D18EE2; }
 
 #validmessage {
   background: #40D3B7;
