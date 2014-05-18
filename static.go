@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"mime"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -43,9 +44,17 @@ func (s *staticDB) Put(file *os.File, size int) error {
 
 	data := buf.Bytes()
 
+	mimetype := http.DetectContentType(data)
+	if mimetype == "" {
+		log.Printf("[INFO] Couldn't detect mimetype from content: %q", file.Name())
+		mimetype = mime.TypeByExtension(filepath.Ext(file.Name()))
+
+	}
+	log.Printf("[INFO] Mimetype of %q: %q", file.Name(), mimetype)
+
 	s.assets[file.Name()] = &asset{
 		content:  data,
-		mimetype: http.DetectContentType(data),
+		mimetype: mimetype,
 	}
 
 	return nil
