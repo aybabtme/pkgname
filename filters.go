@@ -61,16 +61,18 @@ func validPackageNames(name string) error {
 		return fmt.Errorf(errInvalidPackage, "the name can't be blank")
 	}
 
-	for i, rest := range []rune(name) {
+	for i, r := range []rune(name) {
 		if i == 0 {
-			if !unicode.IsLetter(rest) {
+			if !unicode.IsLetter(r) {
 				return fmt.Errorf(errInvalidPackage, "the first character must be a letter")
 			}
 		}
 
 		switch {
-		case unicode.IsLetter(rest):
-		case unicode.IsDigit(rest):
+		case unicode.IsLetter(r):
+		case unicode.IsDigit(r):
+		case r == '-':
+		case r == '_':
 			// ok
 		default:
 			return fmt.Errorf(errInvalidPackage, "all the characters (but the first) must be either letters or digits")
