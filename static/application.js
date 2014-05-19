@@ -1,4 +1,5 @@
 $(function() {
+  var main = $('.main');
   var pkgnameField = $('#pkgname');
   var pkgnameForm = $('#pkgnameform');
   var validMessage = $('#validmessage');
@@ -108,10 +109,15 @@ $(function() {
     });
 
     if (pkgParam) {
-      $('.main').hide();
+      main.hide();
       $('#tryagainmessage').css('display', 'block');
       pkgnameField.val(pkgParam);
       pkgnameForm.trigger('submit');
+      
+    } else {
+      main.show();
     }
+  } else {
+    main.show();
   }
 })

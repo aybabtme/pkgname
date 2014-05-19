@@ -66,6 +66,8 @@ header h1 {
 /*  Main  */
 /* -------*/
 
+.main { display: none; }
+
 .wrapper {
   margin: 0 auto;
   width: 500px;
