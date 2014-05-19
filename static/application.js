@@ -108,6 +108,8 @@ $(function() {
     });
 
     if (pkgParam) {
+      $('.main').hide();
+      $('#tryagainmessage').css('display', 'block');
       pkgnameField.val(pkgParam);
       pkgnameForm.trigger('submit');
     }

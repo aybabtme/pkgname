@@ -121,7 +121,7 @@ input[type="submit"] {
 /*  Messages  */
 /* ---------- */
 
-.message {
+#messages .message, #messages .btn {
   border-radius: 5px;
   color: #fff;
   display: none;
@@ -130,12 +130,10 @@ input[type="submit"] {
   word-wrap: break-word;
 }
 
-.message p {
-  margin: 0;
-  font-size: 24px;
-}
+#messages .message p { margin: 0; }
+#messages .message p, #messages .btn { font-size: 24px; }
 
-.message .name {
+#messages .message .name {
   font-weight: 400;
   text-decoration: none;
 }
@@ -145,6 +143,11 @@ input[type="submit"] {
 
 #validmessage {
   background: #40D3B7;
+  text-align: center;
+}
+
+#tryagainmessage {
+  background: #6CC1ED;
   text-align: center;
 }
 
