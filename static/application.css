@@ -12,6 +12,7 @@ body {
   color: #333;
   font-family: 'Open Sans';
   font-weight: 300;
+  padding-top: 120px;
   min-width: 650px;
 }
 
@@ -52,7 +53,7 @@ a, a:visited { color: inherit; }
 /* ---------- */
 
 header {
-  margin: 120px auto 80px auto;
+  margin: 0 auto 80px auto;
   width: 600px;
 }
 
