@@ -65,7 +65,7 @@ func validate(db *DB) http.HandlerFunc {
 			return
 		}
 
-		pkgname := r.FormValue("pkgname")
+		pkgname := clean(r.FormValue("pkgname"))
 		if pkgname == "" {
 			http.Error(w, `{"error": "Need a package name."}`, http.StatusBadRequest)
 			return
@@ -159,6 +159,10 @@ func generate(db *DB) http.HandlerFunc {
 
 func writeError(w http.ResponseWriter, err error) {
 	titled := strings.Title(err.Error())
-	escaped := template.JSEscapeString(titled)
+	escaped := clean(titled)
 	http.Error(w, `{"error": "`+escaped+`."}`, http.StatusInternalServerError)
+}
+
+func clean(str string) string {
+	return template.JSEscapeString(template.HTMLEscapeString(str))
 }
