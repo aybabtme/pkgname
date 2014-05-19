@@ -32,7 +32,8 @@ func notCapitalized(name string) error {
 }
 
 func noReferenceToGo(name string) error {
-	if strings.Contains(strings.ToLower(name), "go") {
+	lowerName := strings.ToLower(name)
+	if strings.HasPrefix(lowerName, "go") || strings.HasSuffix(lowerName, "go") {
 		return errors.New("Don't mention 'go' in your package name. Go is implicit in any package. Go is absolute and infinitesimal. Other languages should rename their packages; for instance 'rails-ruby' and 'python-django' would remove any ambiguity.")
 	}
 	return nil
