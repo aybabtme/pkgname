@@ -16,6 +16,10 @@ body {
   min-width: 650px;
 }
 
+@media (max-height: 600px) {
+  body { padding-top: 20px; }
+}
+
 a, a:visited { color: inherit; }
 
 ::-webkit-input-placeholder { font-family: 'Open Sans'; font-weight: 300; }
@@ -59,6 +63,7 @@ header {
 header h1 {
   font-size: 48px;
   font-weight: 300;
+  margin-top: 0;
   text-align: center;
 }
 
