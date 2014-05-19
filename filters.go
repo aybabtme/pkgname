@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/grd/stat"
-	"log"
 	"strings"
 	"unicode"
 )
@@ -90,8 +89,6 @@ func closeToMean(allnames []string, maxDist float64) (f Filter, mean, stdev floa
 	f = func(name string) error {
 		diff := float64(len(name)) - mean
 		dist := diff / stdev
-
-		log.Printf("len=%d\tdiff=%f\tdist=%f\tmean=%f\tsd=%f", len(name), diff, dist, mean, stdev)
 
 		if dist > maxDist {
 			return fmt.Errorf("This package name is %.1f std.dev. longer than normal."+
