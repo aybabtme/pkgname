@@ -66,9 +66,17 @@ header h1 {
 /*  Main  */
 /* -------*/
 
-section.main {
+.wrapper {
   margin: 0 auto;
   width: 500px;
+}
+
+.wrapper::after {
+  clear: both;
+  content: ' ';
+  display: block;
+  visibility: hidden;
+  width: 0;
 }
 
 input {
@@ -102,7 +110,11 @@ input[type="submit"] {
 /*  Actions  */
 /* --------- */
 
-#example, #history { width: 235px; }
+#example, #history {
+  float: left;
+  width: 235px;
+}
+
 #example { margin-right: 30px; }
 
 /* ---------- */

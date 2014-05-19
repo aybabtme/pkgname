@@ -11,34 +11,41 @@
   <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 </head>
 <body>
-  <header>
-    <h1>What is your pkg name?</h1>
-  </header>
-
   <section class="main">
-    <form id="pkgnameform">
+    <header>
+      <h1>What is your pkg name?</h1>
+    </header>
+
+    <form id="pkgnameform" class="wrapper">
       <input type="text" name="pkgname" id="pkgname" placeholder="go-libPkgNameLib">
       <input type="submit" value="Is it shit?" class="btn">
     </form>
 
-    <a href="#" id="example" class="btn"><i class="fa fa-bolt"></i> Example</a><a href="#" id="history" class="btn"><i class="fa fa-history"></i> History</a>
-
-    <div id="messages">
-      <div id="validmessage" class="message">
-        <p>&#x2714; <a class="name"></a> is not a shit pkg name</p>
-      </div>
-      <div id="invalidmessage" class="message">
-        <p>&#x2717; <a class="name"></a> is a shit pkg name</p>
-        <ul></ul>
-      </div>
-      <div id="historymessage" class="message">
-        <p>&#x2717; These are shit names</p>
-        <ul></ul>
-        <p>&#x2714; These are not shit names</p>
-        <ul></ul>
-      </div>
+    <div class="wrapper">
+      <a href="#" id="example" class="btn">
+        <i class="fa fa-bolt"></i> Example
+      </a>
+      <a href="#" id="history" class="btn">
+        <i class="fa fa-history"></i> History
+      </a>
     </div>
   </section>
+
+  <section id="messages" class="wrapper">
+    <div id="validmessage" class="message">
+      <p>&#x2714; <a class="name"></a> is not a shit pkg name</p>
+    </div>
+    <div id="invalidmessage" class="message">
+      <p>&#x2717; <a class="name"></a> is a shit pkg name</p>
+      <ul></ul>
+    </div>
+    <div id="historymessage" class="message">
+      <p>&#x2717; These are shit names</p>
+      <ul></ul>
+      <p>&#x2714; These are not shit names</p>
+      <ul></ul>
+    </div>
+  </div>
 
   <footer>
     <p>
